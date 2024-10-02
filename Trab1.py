@@ -109,13 +109,13 @@ print("Teste 7 : ",LinearSelection(A1, 1))
 #Tarefa 2
 
 def BubbleSort(A):
-    for i  in range (1,len(A)-1) :
+    for i  in range (0,len(A)) :
         for j  in range(1,len(A)-i):       
-            if A[j] > A[j+1]:
+            if A[j-1] > A[j]:
                 #swap
-                temp = A[j]
-                A[j] = A[j+1]
-                A[j+1] = temp
+                temp = A[j-1]
+                A[j-1] = A[j]
+                A[j] = temp
     return A
 
 
@@ -133,27 +133,29 @@ tempoLinear = 0
 for n in range(1000, 11000, 1000):
     #gere 10 instancias aleatorias de tamanho n (total de 100 instancias)
     for i in range(10):
-        A = []
+        Sort = []
+        Linear = []
         for j in range(n):
             #Os numeros em cada instancia devem ser gerados aleatoriamente entre 1 e 100.000
-            A.append(random.randint(1, 100000))
+            r = random.randint(1, 100000)
+            Sort.append(r)
+            Linear.append(r)
         
         #Sempre k = ⌊n/2⌋ (metade do tamanho da lista de entrada arredondada para baixo)
-        k = len(A)//2
+        k = len(Sort)//2
         
         time1 = time.time()
-        print("SortSelection = ",SortSelection(A, k))
+        print("SortSelection = ",SortSelection(Sort, k))
         time2 = time.time() - time1
         tempoSort += time2
         
         time3 = time.time()
-        print("LinearSelection = ",LinearSelection(A, k))
+        print("LinearSelection = ",LinearSelection(Linear, k))
         time4 = time.time() - time3
         tempoLinear += time4
         
     arr_medias_sort.append(tempoSort/10)
     arr_medias_linear.append(tempoLinear/10)
-    print("Média do LinearSelection = ",tempoLinear/10)
         
 
 #Tamnhos das entradas
