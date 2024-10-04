@@ -123,9 +123,11 @@ def SortSelection(A, k):
     Aord = BubbleSort(A)
     return Aord[k]
 
-
+#Arrays pra armazenar os tempos de execucao
 arr_medias_sort = []
 arr_medias_linear = []
+
+#Variaveis para contar o tempo de execucao
 tempoSort = 0
 tempoLinear = 0
 
@@ -133,27 +135,45 @@ tempoLinear = 0
 for n in range(1000, 11000, 1000):
     #gere 10 instancias aleatorias de tamanho n (total de 100 instancias)
     for i in range(10):
+        
         Sort = []
+        
         Linear = []
+        
         for j in range(n):
             #Os numeros em cada instancia devem ser gerados aleatoriamente entre 1 e 100.000
             r = random.randint(1, 100000)
+            
             Sort.append(r)
+            
             Linear.append(r)
         
         #Sempre k = ⌊n/2⌋ (metade do tamanho da lista de entrada arredondada para baixo)
         k = len(Sort)//2
         
+        #Comeca a contar o tempo de execucao do SortSelection
         time1 = time.time()
+        
+        #Executa o SortSelection e imprime o resultado
         print("SortSelection = ",SortSelection(Sort, k))
+        
         time2 = time.time() - time1
+        
+        #Soma o tempo de execucao do SortSelection para calcular a media
         tempoSort += time2
         
+        #Comeca a contar o tempo de execucao do LinearSelection
         time3 = time.time()
-        print("LinearSelection = ",LinearSelection(Linear, k))
-        time4 = time.time() - time3
-        tempoLinear += time4
         
+        #Executa o LinearSelection e imprime o resultado
+        print("LinearSelection = ",LinearSelection(Linear, k))
+        
+        time4 = time.time() - time3
+        
+        #Soma o tempo de execucao do LinearSelection para calcular a media
+        tempoLinear += time4
+    
+    #Calcula a media dos tempos de execucao
     arr_medias_sort.append(tempoSort/10)
     arr_medias_linear.append(tempoLinear/10)
         
