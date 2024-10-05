@@ -62,7 +62,7 @@ def LinearSelection(A, k):
             E.append(A[i])
     
     #Se |L| = k-1, retorne m’
-    if(len(L) == (k-1)):
+    if(len(L) == (k -1)):
         return mediana
     
     #Se |L| ≥ k, retorne LinearSelection(L, k)
