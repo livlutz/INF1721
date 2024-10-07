@@ -121,7 +121,7 @@ def BubbleSort(A):
 
 def SortSelection(A, k):
     Aord = BubbleSort(A)
-    return Aord[k]
+    return Aord[k-1] 
 
 #Arrays pra armazenar os tempos de execucao
 arr_medias_sort = []
