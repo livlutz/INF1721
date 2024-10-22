@@ -1,19 +1,21 @@
+#Lívia Lutz dos Santos - 2211055
+#Ana Luiza Pinto Marques - 2211960
+
 #tarefa 1
 
-#Aparentemente, hash table em python é dicionário
-
 #grafo do jogo
-G = {
 
-    1 :
-    2 :
-    3 :
-    4 :
-    5 :
-    6 :
-    7 :
-    8 :
-
+#cada casa do tabuleiro é um nó e as arestas são as casas vizinhas
+Grafo = {
+    1 : [2,4],
+    2 : [1,3,5],
+    3 : [2,6],
+    4 : [1,5,7],
+    5 : [2,4,6,8],
+    6 : [3,5,9],
+    7 : [4,8],
+    8 : [5,7,9],
+    9 : [6,8]
 }
 
 #grafo de estados do jooj
@@ -24,10 +26,8 @@ s´o movimento do jogo.
 
 """
 
-
-GrafoE = {
-    #n sei se tá certo mas é a configuração final
-    cfgfinal : (G[1],G[2],G[3],G[4],G[5],G[6],G[7],G[8])
+GrafoJogo = {
+    
 }
 
 #tarefa 2
