@@ -5,17 +5,8 @@
 
 #grafo do jogo
 
-#cada casa do tabuleiro é um nó e as arestas são as casas vizinhas
 Grafo = {
-    1 : [2,4],
-    2 : [1,3,5],
-    3 : [2,6],
-    4 : [1,5,7],
-    5 : [2,4,6,8],
-    6 : [3,5,9],
-    7 : [4,8],
-    8 : [5,7,9],
-    9 : [6,8]
+    
 }
 
 #grafo de estados do jooj
@@ -26,9 +17,17 @@ s´o movimento do jogo.
 
 """
 
-GrafoJogo = {
+#configuracao final : 1 2 3
+#                     4 5 6
+#                     7 8 
+
+
+def montaGrafoEstados():
     
-}
+    
+    
+    
+    return GrafoJogo
 
 #tarefa 2
 def BFS(G,s):  
@@ -66,7 +65,9 @@ def BFS(G):
             BFS(G,i)
             componentes += 1
     return componentes
+
    
+print("O número componentes conexas = ", BFS(GrafoJogo))
 
 #tarefa 3
 
@@ -92,16 +93,17 @@ def BFS(G,s):
                     parent[v] = u
                     visitados[v] = 1
 
-        if(len(L[i]) == 0):
-            return
-
-    return parent
+    
+    return len(L)
 
 def BFS(G):
     visitados=[]
+    maxCaminho = -1
     for i in len(G):
         if(visitados[i] == 0):
-            BFS(G,i)
+            tamCaminho = BFS(G,i)
+        if(tamCaminho > maxCaminho):
+            maxCaminho = tamCaminho
+    return maxCaminho
 
-
-# aqui tem q printar o parent
+print("Maior caminho mais curto = ", BFS(GrafoJogo))
