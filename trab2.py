@@ -53,7 +53,9 @@ def BFS(G,s):
                     visitados[v] = 1
 
         if(len(L[i]) == 0):
-            return
+            break
+        
+        i += 1
 
     return L
 
@@ -90,6 +92,11 @@ def BFS(G,s):
                 if(visitados[v] == 0):
                     L[i].append(v)
                     visitados[v] = 1
+        
+        if(len(L[i]) == 0):
+            break
+        
+        i += 1
 
     
     return len(L)
