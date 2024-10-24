@@ -1,6 +1,8 @@
 #Lívia Lutz dos Santos - 2211055
 #Ana Luiza Pinto Marques - 2211960
 
+from collections import defaultdict
+
 #tarefa 1
 
 #grafo do jogo
@@ -34,9 +36,8 @@ def BFS(G,s):
 
     L = []
     L.append([s])
-    visitados = []
+    visitados = defaultdict(lambda: 0)
     visitados[s] = 1
-    parent = []
    
     i = 1
 
@@ -45,11 +46,10 @@ def BFS(G,s):
        
         for u in L[i-1]:
            
-            for v in adj[u]:
+            for v in G[u]:
 
                 if(visitados[v] == 0):
                     L[i].append(v)
-                    parent[v] = u
                     visitados[v] = 1
 
         if(len(L[i]) == 0):
@@ -58,7 +58,7 @@ def BFS(G,s):
     return L
 
 def BFS(G):
-    visitados=[]
+    visitados = defaultdict(lambda: 0)
     componentes = 0
     for i in len(G):
         if(visitados[i] == 0):
@@ -75,9 +75,8 @@ def BFS(G,s):
 
     L = []
     L.append([s])
-    visitados = []
+    visitados = defaultdict(lambda: 0)
     visitados[s] = 1
-    parent = []
    
     i = 1
 
@@ -86,18 +85,17 @@ def BFS(G,s):
        
         for u in L[i-1]:
            
-            for v in adj[u]:
+            for v in G[u]:
 
                 if(visitados[v] == 0):
                     L[i].append(v)
-                    parent[v] = u
                     visitados[v] = 1
 
     
     return len(L)
 
 def BFS(G):
-    visitados=[]
+    visitados = defaultdict(lambda: 0)
     maxCaminho = -1
     for i in len(G):
         if(visitados[i] == 0):
