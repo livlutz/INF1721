@@ -6,17 +6,6 @@ from random import randint
 
 #tarefa 1
 
-"""
-Nesse grafo temos: 1) um n´o para cada configura¸c˜ao poss´ıvel do tabuleiro; 2) arestas
-do tipo (cfg1, cfg2) quando pudermos passar da configura¸c˜ao cfg1 para a configura¸c˜ao cfg2 em um
-s´o movimento do jogo.
-
-"""
-
-#configuracao final : 1 2 3
-#                     4 5 6
-#                     7 8 
-
 numerosAleatorios = []
 cont = 0
 
@@ -52,7 +41,6 @@ configuracaoFinal = {
     9 : 0
 }
 
-# Define os movimentos válidos como deslocamentos (direita, esquerda, cima, baixo)
 movimentos_validos = {
     1: [2, 4],
     2: [1, 3, 5],
@@ -67,6 +55,7 @@ movimentos_validos = {
 
 def escolheTroca(posicaoVazia):
     # Seleciona aleatoriamente uma posição válida a partir dos movimentos possíveis
+    # Define os movimentos válidos como deslocamentos (direita, esquerda, cima, baixo)
     return movimentos_validos[posicaoVazia][randint(0, len(movimentos_validos[posicaoVazia]) - 1)]
     
 def montaGrafoEstados(posicoesIniciais):
@@ -98,9 +87,11 @@ def montaGrafoEstados(posicoesIniciais):
         
         
         #adicionar o estado do jogo no grafo
+        #verificar se o estado ja existe no grafo
+        if posicao not in GrafoJogo.values():
+            GrafoJogo[cont] = posicao
+            cont += 1
         
-        GrafoJogo[cont] = posicao
-        cont += 1
     
     return GrafoJogo
 
