@@ -87,14 +87,21 @@ def montaGrafoEstados(posicoesIniciais):
         
         
         #adicionar o estado do jogo no grafo
-        #verificar se o estado ja existe no grafo
-        if posicao not in GrafoJogo.values():
-            GrafoJogo[cont] = posicao
-            cont += 1
+        # Verifica se o estado atual já está no grafo usando o conjunto
         
+        GrafoJogo[cont] = posicao.copy()
+        cont += 1
+        
+    #tirar os estados repetidos
+     # Remove duplicados após a geração de todos os estados
+    estados_unicos = {tuple(state.values()): state for state in GrafoJogo.values()}
     
-    return GrafoJogo
-
+    # Converte o grafo para usar apenas os estados únicos
+    GrafoJogoUnico = {i + 1: estado for i, estado in enumerate(estados_unicos.values())}
+    
+    return GrafoJogoUnico
+    
+   
 GrafoJogo = montaGrafoEstados(posicoesIniciais)
 print(len(GrafoJogo))
 
