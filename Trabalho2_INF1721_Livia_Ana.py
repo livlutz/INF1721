@@ -2,16 +2,10 @@
 #Ana Luiza Pinto Marques - 2211960
 
 from collections import defaultdict
+from random import randint
 
 #tarefa 1
 
-#grafo do jogo
-
-Grafo = {
-    
-}
-
-#grafo de estados do jooj
 """
 Nesse grafo temos: 1) um n´o para cada configura¸c˜ao poss´ıvel do tabuleiro; 2) arestas
 do tipo (cfg1, cfg2) quando pudermos passar da configura¸c˜ao cfg1 para a configura¸c˜ao cfg2 em um
@@ -23,15 +17,98 @@ s´o movimento do jogo.
 #                     4 5 6
 #                     7 8 
 
+numerosAleatorios = []
+cont = 0
 
-def montaGrafoEstados():
+while cont < 9:
+    num = randint(0,8)
     
+    if num not in numerosAleatorios:
+        numerosAleatorios.append(num)
+        cont += 1
     
+# 0 e a casa vazia
+posicoesIniciais = {
+    1 : numerosAleatorios[0],
+    2 : numerosAleatorios[1],
+    3 : numerosAleatorios[2],
+    4 : numerosAleatorios[3],
+    5 : numerosAleatorios[4],
+    6 : numerosAleatorios[5],
+    7 : numerosAleatorios[6],
+    8 : numerosAleatorios[7],
+    9 : numerosAleatorios[8]
+}
+
+configuracaoFinal = {
+    1 : 1,
+    2 : 2,
+    3 : 3,
+    4 : 4,
+    5 : 5,
+    6 : 6,
+    7 : 7,
+    8 : 8,
+    9 : 0
+}
+
+# Define os movimentos válidos como deslocamentos (direita, esquerda, cima, baixo)
+movimentos_validos = {
+    1: [2, 4],
+    2: [1, 3, 5],
+    3: [2, 6],
+    4: [1, 5, 7],
+    5: [2, 4, 6, 8],
+    6: [3, 5, 9],
+    7: [4, 8],
+    8: [5, 7, 9],
+    9: [6, 8]
+}
+
+def escolheTroca(posicaoVazia):
+    # Seleciona aleatoriamente uma posição válida a partir dos movimentos possíveis
+    return movimentos_validos[posicaoVazia][randint(0, len(movimentos_validos[posicaoVazia]) - 1)]
     
+def montaGrafoEstados(posicoesIniciais):
+    
+    posicao = posicoesIniciais.copy()
+    
+    GrafoJogo = {
+        1 : posicao.copy(),
+    }
+    
+    venceu = False
+    cont = 2
+    
+    while not venceu :
+        #alterar o estado do jogo, ver onde ta o 0 e trocar com qqlr posicao vizinha
+        #lado = posicao.index(0) +-1
+        #cima e baixo = posicao.index(0) +-3
+        key = next((chave for chave, valor in posicao.items() if valor == 0), None)
+        valor = escolheTroca(key)
+        
+        posicaoVazia = posicao[valor]
+        posicao[key] = posicaoVazia
+        posicao[valor] = 0
+        
+        #verificar se o jogo acabou
+        
+        if posicao == configuracaoFinal:
+            venceu = True
+        
+        
+        #adicionar o estado do jogo no grafo
+        
+        GrafoJogo[cont] = posicao
+        cont += 1
     
     return GrafoJogo
 
+GrafoJogo = montaGrafoEstados(posicoesIniciais)
+print(len(GrafoJogo))
+
 #tarefa 2
+"""
 def BFS(G,s):  
 
     L = []
@@ -111,4 +188,4 @@ def BFS(G):
             maxCaminho = tamCaminho
     return maxCaminho
 
-print("Maior caminho mais curto = ", BFS(GrafoJogo))
+print("Maior caminho mais curto = ", BFS(GrafoJogo)) """
