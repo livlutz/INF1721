@@ -85,6 +85,8 @@ def montaGrafoEstados(posicoesIniciais):
     venceu = False
     cont = 1
     
+    print(posicoesIniciais)
+    
     while not venceu :
     
         posicao_atual = C[cont - 1]  # Aqui ainda é uma lista
