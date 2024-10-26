@@ -6,6 +6,13 @@ from random import randint
 
 #tarefa 1
 
+"""#tirar os estados repetidos
+     # Remove duplicados após a geração de todos os estados
+    estados_unicos = {tuple(state.values()): state for state in GrafoJogo.values()}
+    
+    # Converte o grafo para usar apenas os estados únicos
+    GrafoJogoUnico = {i + 1: estado for i, estado in enumerate(estados_unicos.values())}"""
+
 numerosAleatorios = []
 cont = 0
 
@@ -53,10 +60,14 @@ movimentos_validos = {
     9: [6, 8]
 }
 
-def escolheTroca(posicaoVazia):
-    # Seleciona aleatoriamente uma posição válida a partir dos movimentos possíveis
-    # Define os movimentos válidos como deslocamentos (direita, esquerda, cima, baixo)
-    return movimentos_validos[posicaoVazia][randint(0, len(movimentos_validos[posicaoVazia]) - 1)]
+# Função para gerar todas as trocas a partir da posição vazia
+def geraTrocas(posicao, key):
+    trocas = []
+    for destino in movimentos_validos[key]:
+        nova_posicao = posicao.copy()
+        nova_posicao[key], nova_posicao[destino] = nova_posicao[destino], nova_posicao[key]
+        trocas.append(nova_posicao)
+    return trocas
     
 def montaGrafoEstados(posicoesIniciais):
     
@@ -73,33 +84,21 @@ def montaGrafoEstados(posicoesIniciais):
         #alterar o estado do jogo, ver onde ta o 0 e trocar com qqlr posicao vizinha
         #lado = posicao.index(0) +-1
         #cima e baixo = posicao.index(0) +-3
-        key = next((chave for chave, valor in posicao.items() if valor == 0), None)
-        valor = escolheTroca(key)
-        
-        posicaoVazia = posicao[valor]
-        posicao[key] = posicaoVazia
-        posicao[valor] = 0
-        
-        #verificar se o jogo acabou
-        
-        if posicao == configuracaoFinal:
-            venceu = True
-        
-        
-        #adicionar o estado do jogo no grafo
-        # Verifica se o estado atual já está no grafo usando o conjunto
-        
-        GrafoJogo[cont] = posicao.copy()
-        cont += 1
-        
-    #tirar os estados repetidos
-     # Remove duplicados após a geração de todos os estados
-    estados_unicos = {tuple(state.values()): state for state in GrafoJogo.values()}
     
-    # Converte o grafo para usar apenas os estados únicos
-    GrafoJogoUnico = {i + 1: estado for i, estado in enumerate(estados_unicos.values())}
-    
-    return GrafoJogoUnico
+        posicao_atual = GrafoJogo[cont - 1].copy()
+        key_vazio = next((k for k, v in posicao_atual.items() if v == 0), None)
+        trocas_possiveis = geraTrocas(posicao_atual, key_vazio)
+        
+        for nova_posicao in trocas_possiveis:
+            if nova_posicao not in GrafoJogo.values():
+                GrafoJogo[cont] = nova_posicao
+                cont += 1
+                # Verifica se venceu
+                if nova_posicao == configuracaoFinal:
+                    venceu = True
+                    break
+        
+    return GrafoJogo
     
    
 GrafoJogo = montaGrafoEstados(posicoesIniciais)
