@@ -1,7 +1,7 @@
 #Lívia Lutz dos Santos - 2211055
 #Ana Luiza Pinto Marques - 2211960
 
-from collections import defaultdict
+from collections import defaultdict, deque
 from random import randint
 
 #tarefa 1
@@ -126,49 +126,58 @@ print("Quantidade de estados = ", len(GrafoJogo), "\n")
 print("Quantidade de arestas = ", sum([len(GrafoJogo[i]["viz"]) for i in GrafoJogo])//2, "\n")
 
 #tarefa 2
-"""
-def BFS(G,s):  
+# def BFS_visit(G,s):  
 
-    L = []
-    L.append([s])
-    visitados = defaultdict(lambda: 0)
-    visitados[s] = 1
+#     L = []
+#     L.append([s])
+#     visitados = defaultdict(lambda: 0)
+#     visitados[s] = 1
    
-    i = 1
+#     i = 1
 
-    while 1 :
-        L.append([])
+#     while 1 :
+#         L.append([])
        
-        for u in L[i-1]:
+#         for u in L[i-1]:
            
-            for v in G[u]:
+#             for v in G[u]["viz"]:
 
-                if(visitados[v] == 0):
-                    L[i].append(v)
-                    visitados[v] = 1
+#                 if(visitados[v] == 0):
+#                     L[i].append(v)
+#                     visitados[v] = 1
 
-        if(len(L[i]) == 0):
-            break
+#         if(len(L[i]) == 0):
+#             break
         
-        i += 1
+#         i += 1
 
-    return L
+#     return L
+
+def BFS_visit(G, s, visitados):
+    queue = deque([s])
+    visitados[s] = True
+
+    while queue:
+        u = queue.popleft()
+        for v in G[u]["viz"]:
+            if not visitados[v]:
+                queue.append(v)
+                visitados[v] = True
 
 def BFS(G):
     visitados = defaultdict(lambda: 0)
     componentes = 0
-    for i in len(G):
+    for i in G:
         if(visitados[i] == 0):
-            BFS(G,i)
+            BFS_visit(G,i, visitados)
             componentes += 1
     return componentes
 
-   
 print("O número componentes conexas = ", BFS(GrafoJogo))
 
 #tarefa 3
-
-def BFS(G,s):  
+"""
+def BFS_visit_caminho(G,s):  
 
     L = []
     L.append([s])
@@ -196,14 +205,44 @@ def BFS(G,s):
     
     return len(L)
 
-def BFS(G):
+def BFS_caminho(G):
     visitados = defaultdict(lambda: 0)
     maxCaminho = -1
     for i in len(G):
         if(visitados[i] == 0):
-            tamCaminho = BFS(G,i)
+            tamCaminho = BFS_visit_caminho(G,i)
         if(tamCaminho > maxCaminho):
             maxCaminho = tamCaminho
     return maxCaminho
 
-print("Maior caminho mais curto = ", BFS(GrafoJogo)) """
+print("Maior caminho mais curto = ", BFS(GrafoJogo))
+"""
+
+def BFS_visit_caminho(G, s, visitados):  
+    queue = deque([(s, 0)])  # A fila mantém (nó, profundidade)
+    visitados[s] = True
+    max_depth = 0
+
+    while queue:
+        u, depth = queue.popleft()  # Desempilha o nó e sua profundidade
+        max_depth = max(max_depth, depth)  # Atualiza a profundidade máxima
+
+        for v in G[u]["viz"]:
+            if not visitados[v]:
+                queue.append((v, depth + 1))
+                visitados[v] = True
+
+    return max_depth
+
+def BFS_caminho(G):
+    visitados = defaultdict(lambda: False)
+    max_caminho = -1
+
+    for i in G:
+        if not visitados[i]:  # Verifica se o nó ainda não foi visitado
+            tam_caminho = BFS_visit_caminho(G, i, visitados)
+            max_caminho = max(max_caminho, tam_caminho)
+
+    return max_caminho
+
+print("Maior caminho mais curto =", BFS_caminho(GrafoJogo))
