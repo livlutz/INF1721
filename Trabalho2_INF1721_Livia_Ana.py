@@ -69,58 +69,47 @@ def montaGrafoEstados(posicoesIniciais):
     #C[u] retorna a configuracao correspondente a esse no
     C = [] 
     
-    #Grafo do jogo que contem os nos (configuracoes) e suas arestas
     GrafoJogo = {}
-    
-    # Converte a configuração inicial em tupla para hashing
+
     posicao = posicoesIniciais.copy()
-    posicao_tupla = tuple(posicao.values())  
-    
-    # Adiciona a configuração inicial ao grafo
+    posicao_tupla = tuple(posicao.values())  # Converte a configuração inicial em tupla para hashing
+
     H[posicao_tupla] = 0
     C.append(posicao.copy())
     GrafoJogo[0] = {"cfg": posicao.copy(), "viz": []}
-    
+
     #Flags de controle do while
     venceu = False
     cont = 1
     
-    print(posicoesIniciais)
-    
     while not venceu :
     
+        #alterar o estado do jogo, ver onde ta o 0 e trocar com qqlr posicao vizinha
+        #lado = posicao.index(0) +-1
+        #cima e baixo = posicao.index(0) +-3
+
         posicao_atual = C[cont - 1]  # Aqui ainda é uma lista
-        
-        # Encontra a chave (posição) onde o valor é 0 
-        key_vazio = key_vazio = next(k for k, v in posicao_atual.items() if v == 0) 
-        
-        # Escolhe uma nova posição vazia para trocar 
+        #print("Posicao atual = ", posicao_atual)
+
+        key_vazio = key_vazio = next(k for k, v in posicao_atual.items() if v == 0)  # Encontra a chave (posição) onde o valor é 0 
+        #print("Key vazio = ", key_vazio)
+
         nova_posicao_vazia = escolheTroca(key_vazio)
         
-        # Faz a troca e converte a nova configuração em tupla
         posicao_atual[key_vazio] = posicao_atual[nova_posicao_vazia]
         posicao_atual[nova_posicao_vazia] = 0
         posicao_tupla = tuple(posicao_atual.values())
-        
-        # Se a nova configuração ainda não existe, adiciona ao grafo
-        if posicao_tupla not in H:
-            H[posicao_tupla] = cont
-            C.append(posicao_atual)
-            GrafoJogo[cont] = {"cfg": posicao_tupla, "viz": [cont - 1]}
-            GrafoJogo[cont - 1]["viz"].append(cont)
-            cont += 1
+
+        H[posicao_tupla] = cont
+        C.append(posicao_atual)
+        GrafoJogo[cont] = {"cfg": posicao_tupla, "viz": [cont - 1]}
+        GrafoJogo[cont - 1]["viz"].append(cont)
+        cont += 1
             
-            # Se a nova configuração é a final, o puzzle está resolvido 
-            if posicao_atual == configuracaoFinal:
-                venceu = True
-                break
+        if posicao_atual == configuracaoFinal:
+            venceu = True
+            break
         
-        # Se já existe, conecta o nó atual ao nó existente
-        else:
-            no = H[posicao_tupla]
-            if no not in GrafoJogo[cont - 1]["viz"]:
-                GrafoJogo[cont - 1]["viz"].append(no)
-                GrafoJogo[no]["viz"].append(cont - 1)
         
     return GrafoJogo
     
