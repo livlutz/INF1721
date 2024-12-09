@@ -33,37 +33,37 @@ while linha != "":
     linha = arquivo.readline()
 
 arquivo.close()
-print(valor)
 
-m = []
+# equacao de recorrencia : OPT(i,b) = max (j = 1…10) { (j*vi) + OPT(i - 1,b - (j * vi)) }
 
-for i in range(0,n):
-    m.append([])
-    for j in range(0,B):
-        m[i].append(0)
-        
-print(m[0][0])
-
-def Knapsack(i,b):
-    maior = -10000000000
-    qtdItens = 0
-    for k in range(1,i):
-        for j in range(0,9):
-            print("k = ", k)
-            print("j = ", j)
-            if((j * valor[k]) <= b):
-                max = (j * valor[k]) + m[k-1][b - (j * valor[k])]
-                if max > maior:
-                    maior = max
-                    qtdItens +=1
-    m[i][b] = maior
+m = [[0 for _ in range(B+1)] for _ in range(n+1)]
+qtdItens = [[0 for _ in range(B+1)] for _ in range(n+1)]
+      
+def Knapsack(i,b,m,valor,tam,qtdItens):
+    if i == 0 or b == 0:
+        return 0
+    
+    maior = -1000000
+    
+    for n in range(1,i+1):
+        for w in range(1,b+1):
+            m[n][w] = m[n-1][w]
+            for j in range(1,11):
+                if j * tam[n-1] <= w:
+                    m[n][w] = max(m[n][w], j * valor[n-1] + m[n-1][w - j * tam[n-1]])
+                    if m[n][w] > maior:
+                        maior = m[n][w]
+                        qtdItens[n][w] = j
+    
     return maior, qtdItens
+    
 
 def imprimeResultado(maior,qtdItens,indArq):
     print("Melhor valor obtido na instancia ",indArq,": ", maior,"\n")
-    for i in range(0,n):
-        print("Foram usados", qtdItens, "do item numero", i,"\n")
+    for i in range(1,n+1):
+        print("Foram usados ",qtdItens[i][B]," do item numero ", i,"\n")
 
-maior, qtdItens = Knapsack(n,B)
+maior,qtdItens = Knapsack(n,B,m,valor,tam,qtdItens)
 imprimeResultado(maior,qtdItens,1)
+
         
