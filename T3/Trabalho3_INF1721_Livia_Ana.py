@@ -2,7 +2,7 @@
 #Ana Luiza Pinto Marques - 2211960
 
 #Para fins de teste, basta mudar o nome do arquivo usado e o path para o mesmo arquivo
-arquivo = open(r"C:\Users\Livia\git\INF1721\T3\inst1.txt", "r")
+arquivo = open(r"C:\Users\Livia\git\INF1721\T3\inst8.txt", "r")
 
 #lendo o arquivo aberto
 linha = arquivo.readline()
@@ -75,6 +75,6 @@ def imprimeResultado(maior,qtdItens,indArq):
 maior,qtdItens = Knapsack(n,B,m,valor,tam,qtdItens)
 
 #Para testar, basta mudar o ultimo parametro da funcao para o numero da instancia do arquivo sendo testado
-imprimeResultado(maior,qtdItens,1)
+imprimeResultado(maior,qtdItens,8)
 
         
