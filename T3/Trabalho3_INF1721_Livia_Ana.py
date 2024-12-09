@@ -1,21 +1,11 @@
 #Lívia Lutz dos Santos - 2211055
 #Ana Luiza Pinto Marques - 2211960
 
-#guardando os nomes dos arquivos pra ler
-
-#nomeArquivo = "inst"
-#arquivos = []
-#for i in range (1,9):
-    #arquivos.append(nomeArquivo + str(i) )
-
-
-#primeira linha -> n itens e j capacidade da mochila
-#as outras sao valor e tamanho
 
 tam = []
 valor = []
 
-arquivo = open(r"C:\Users\Livia\git\INF1721\T3\inst6.txt", "r")
+arquivo = open(r"C:\Users\Livia\git\INF1721\T3\inst1.txt", "r")
 linha = arquivo.readline()
 
 partes = linha.strip().split(" ")
@@ -34,8 +24,6 @@ while linha != "":
     linha = arquivo.readline()
 
 arquivo.close()
-
-# equacao de recorrencia : OPT(i,b) = max (j = 1…10) { (j*vi) + OPT(i - 1,b - (j * vi)), OPT(i - 1,b) }
 
 m = [[0 for _ in range(B+1)] for _ in range(n+1)]
 qtdItens = [0 for _ in range(n+1)]  
@@ -65,13 +53,12 @@ def Knapsack(i,b,m,valor,tam,qtdItens):
     
     return maior, qtdItens
     
-
 def imprimeResultado(maior,qtdItens,indArq):
     print("Melhor valor obtido na instancia ",indArq,": ", maior,"\n")
     for i in range(1,n+1):
         print("Foram usados ",qtdItens[i]," do item numero ", i,"\n")
 
 maior,qtdItens = Knapsack(n,B,m,valor,tam,qtdItens)
-imprimeResultado(maior,qtdItens,6)
+imprimeResultado(maior,qtdItens,1)
 
         
